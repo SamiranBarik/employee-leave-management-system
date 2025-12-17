@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Manager Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <h2>Manager Dashboard</h2>
+  <button onclick="logout()">Logout</button>
+</div>
+
+<div class="container">
+
+  <!-- TOGGLE BUTTON -->
+  <div class="card">
+    <button id="toggleBtn" onclick="toggleHistory()" class="action-btn approve">
+      View Employee Leave History
+    </button>
+  </div>
+
+  <!-- EMPLOYEE LEAVE HISTORY -->
+  <div class="card" id="historyCard" style="display: none;">
+    <h3>Employee Leave History</h3><br>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Leave Type</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Reason</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="table"></tbody>
+    </table>
+  </div>
+
+  <!-- APPROVED LEAVE CALENDAR (SIMPLE VIEW) -->
+  <div class="card">
+    <h3>Approved Leave Calendar</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Employee ID</th>
+          <th>Leave Type</th>
+          <th>From</th>
+          <th>To</th>
+        </tr>
+      </thead>
+      <tbody id="calendarBody"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<script src="manager.js"></script>
+
+<script>
+  // Load approved leaves (Calendar View)
+  document.addEventListener("DOMContentLoaded", () => {
+    fetch("http://localhost:3000/leaves")
+      .then(res => res.json())
+      .then(data => {
+        const body = document.getElementById("calendarBody");
+        body.innerHTML = "";
+
+        data
+          .filter(l => l.status === "APPROVED")
+          .forEach(l => {
+            body.innerHTML += `
+              <tr style="background-color:#e8f5e9;">
+                <td>${l.user_id}</td>
+                <td>${l.leave_type}</td>
+                <td>${l.start_date.split("T")[0]}</td>
+                <td>${l.end_date.split("T")[0]}</td>
+              </tr>
+            `;
+          });
+      });
+  });
+</script>
+
+</body>
+</html>
