@@ -20,7 +20,7 @@ app.post("/login", (req, res) => {
 
     const user = result[0];
 
-    // ✅ AUTO-CREATE LEAVE BALANCE FOR EMPLOYEE
+    // AUTO-CREATE LEAVE BALANCE FOR EMPLOYEE
     if (user.role === "EMPLOYEE") {
       db.query(
         "SELECT * FROM leave_balance WHERE user_id=?",
@@ -118,7 +118,7 @@ app.post("/update-leave", (req, res) => {
   );
 });
 
-/* ✅ STEP 4.4 – GET LEAVE BALANCE (ADD THIS) */
+/* GET LEAVE BALANCE */
 app.get("/leave-balance/:id", (req, res) => {
   const userId = req.params.id;
 
