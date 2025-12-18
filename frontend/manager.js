@@ -1,15 +1,14 @@
-// 🔐 Block unauthorized access (run immediately)
+// Block unauthorized access 
 if (localStorage.getItem("role") !== "MANAGER") {
   window.location.href = "index.html";
 }
 
-// ✅ Run after DOM is fully loaded
 document.addEventListener("DOMContentLoaded", () => {
   loadLeaves();
   loadCalendar();
 });
 
-// 📥 Fetch and display all leave requests (History + Approval)
+// Fetch and display all leave requests (History + Approval)
 function loadLeaves() {
   fetch("http://localhost:3000/leaves")
     .then(res => res.json())
@@ -47,7 +46,7 @@ function loadLeaves() {
     .catch(err => console.error("Error loading leaves:", err));
 }
 
-// 🔄 Approve / Reject leave
+// Approve / Reject leave
 function updateLeave(id, status) {
   fetch("http://localhost:3000/update-leave", {
     method: "POST",
@@ -62,7 +61,7 @@ function updateLeave(id, status) {
     .catch(err => console.error("Update failed:", err));
 }
 
-// 📅 Load Approved Leave Calendar (STEP-3 ADDED HERE)
+//  Load Approved Leave Calendar 
 function loadCalendar() {
   fetch("http://localhost:3000/leaves")
     .then(res => res.json())
@@ -88,7 +87,7 @@ function loadCalendar() {
 }
 
 
-// 👁️ Toggle Employee Leave History
+// Toggle Employee Leave History
 function toggleHistory() {
   const card = document.getElementById("historyCard");
   const btn = document.getElementById("toggleBtn");
@@ -102,7 +101,7 @@ function toggleHistory() {
   }
 }
 
-// 🚪 Logout
+// Logout
 function logout() {
   localStorage.clear();
   window.location.href = "index.html";
